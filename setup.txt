@@ -1,0 +1,10 @@
+pip install -r requirenments.txt
+
+pip install virtualenv
+pip install psutil
+pip install plyer
+pip install pywin32 winshell
+
+pip freeze > requirements.txt
+
+to setup execute : python setup.py -y
