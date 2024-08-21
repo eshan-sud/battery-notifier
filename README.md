@@ -9,7 +9,7 @@
 
 ## Setup
 
-1. Open Command Prompt.
+1. Open Command Prompt in this same directory
 2. Execute: `python setup.py -y`
 
    This will create a shortcut on your desktop for easy access to the Battery Notifier interface and configure it to run automatically on startup (which can be adjusted as per user preference).
