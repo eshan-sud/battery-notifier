@@ -18,6 +18,10 @@ Key features include:
 <img src="https://github.com/user-attachments/assets/c1f1c039-3278-425e-9304-4887407f5a45" alt="dark-mode" width="300"/>
 <img src="https://github.com/user-attachments/assets/aecda160-3527-47ac-bcbb-2402d5a26219" alt="light-mode" width="300"/>
 
+
+<img src="https://github.com/user-attachments/assets/3a4da1d6-547b-48f2-a1f7-9773146608f4" alt="notification" width="500"/>
+
+
 ## Setup
 
 1. Open Command Prompt in the same directory as `setup.py`.
