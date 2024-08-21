@@ -1,6 +1,5 @@
 # /battery_utility.py
 
-import json
 import psutil
 import notification
 import settings
@@ -20,63 +19,36 @@ POWER_SAVER_GUID = "381b4222-f694-41f0-9685-ff5bb260df2e"
 def monitor_battery_events():
     """ Monitors battery events such as plug in or plug out charging """
     last_power_plugged = None
+    last_notification = None
     while True:
         try:
             config = settings.load_config()
             lower_threshold, higher_threshold = config['lower_threshold'], config['higher_threshold']
             battery = psutil.sensors_battery()
-
             if battery is None:
                 log_error("Cannot access battery information.")
                 break
-
             percentage, power_plugged = battery.percent, battery.power_plugged
-
+            # Detect a change in power plugged state (plugged in or unplugged)
             if last_power_plugged is None or power_plugged != last_power_plugged:
                 if power_plugged:
                     notification.notification_message("Charging cable plugged in.")
                 else:
                     notification.notification_message("Charging cable unplugged.")
-                
-                if power_plugged and percentage >= higher_threshold:
-                    notification.notification_message(f"Battery is charged to {percentage}%. Please unplug the charger.")
-                elif not power_plugged and percentage <= lower_threshold:
-                    notification.notification_message(f"Battery is at {percentage}%. Consider plugging in.")
                 last_power_plugged = power_plugged
-
+            # Check thresholds
+            if power_plugged and percentage >= higher_threshold:
+                if last_notification != "unplug":
+                    notification.notification_message(f"Battery is charged to {percentage}%. Please unplug the charger.")
+                    last_notification = "unplug"
+            elif not power_plugged and percentage <= lower_threshold:
+                if last_notification != "plug_in":
+                    activate_battery_saver()
+                    notification.notification_message(f"Battery is at {percentage}%. Consider plugging in.")
+                    last_notification = "plug_in"
         except Exception as e:
             log_error(f"Error in monitor_battery_events: {e}")
-        
-        # Wait for a second before checking again
-        threading.Event().wait(1)
-
-# def monitor_battery_events():
-#     """ Monitors battery events such as plug in or plug out charging """
-#     last_power_plugged = psutil.sensors_battery().power_plugged
-#     while True:
-#         try:
-#             config = settings.load_config()
-#             lower_threshold, higher_threshold = config['lower_threshold'], config['higher_threshold']
-#             battery = psutil.sensors_battery()
-#             if battery is None:
-#                 log_error(f"Cannot access battery information.")
-#                 break
-#             percentage, power_plugged = battery.percent, battery.power_plugged
-#             # Detect changes in power source (plugged in or unplugged)
-#             if last_power_plugged is None or power_plugged != last_power_plugged:
-#                 if power_plugged:
-#                     notification.notification_message("Charging cable plugged in.")
-#                     if percentage >= higher_threshold:
-#                         notification.notification_message(f"Battery is charged to {percentage}%. Please unplug the charger.")
-#                 else:
-#                     notification.notification_message("Charging cable unplugged.")
-#                     if percentage <= lower_threshold:
-#                         notification.notification_message(f"Battery is at {percentage}%. Consider plugging in.")
-#                 last_power_plugged = power_plugged
-#         except Exception as e:
-#             log_error(f"Error in monitor_battery_events: {e}")
-#         finally:
-#             threading.Event().wait(1)
+        threading.Event().wait(1) # Wait for a second before checking again
 
 def get_brightness():
     """ Returns the current screen brightness level (0-100) """
@@ -114,13 +86,11 @@ def activate_battery_saver():
         if active_scheme == POWER_SAVER_GUID:
             messagebox.showinfo("Battery Saver", "Battery Saver is already active.")
             return
-
         current_brightness = get_brightness()
-        config = settings.load_config()
-        config['saved_brightness'] = current_brightness
-        settings.save_config(config)
-
         if current_brightness > LOWER_BRIGHTNESS_VALUE:
+            config = settings.load_config()
+            config['current_brightness'] = current_brightness
+            settings.save_config(config)
             set_brightness(LOWER_BRIGHTNESS_VALUE)
 
         subprocess.run(f"powercfg.exe /setactive {POWER_SAVER_GUID}", shell=True, check=True, capture_output=True, text=True)
@@ -139,8 +109,8 @@ def deactivate_battery_saver():
             return
         subprocess.run(f"powercfg.exe /setactive {BALANCED_GUID}", shell=True, check=True, capture_output=True, text=True)
         config = settings.load_config()
-        saved_brightness = config.get('saved_brightness', 50)
-        set_brightness(saved_brightness)
+        current_brightness = config.get('current_brightness')
+        set_brightness(current_brightness)
         messagebox.showinfo("Battery Saver", "Battery Saver mode deactivated, Balanced plan activated.")
     except subprocess.CalledProcessError as e:
         messagebox.showerror("Error", f"Failed to deactivate Battery Saver: {e}\n{e.stderr}")
@@ -149,10 +119,7 @@ def deactivate_battery_saver():
 
 def toggle_battery_saver():
     """ Toggles the battery saver mode based on the current state """
-    if is_battery_saver_on():
-        deactivate_battery_saver()
-    else:
-        activate_battery_saver()
+    deactivate_battery_saver() if is_battery_saver_on() else activate_battery_saver()
 
 def is_battery_saver_on():
     """ Checks whether the battery saver mode is currently on """

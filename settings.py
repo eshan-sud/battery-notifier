@@ -160,15 +160,14 @@ def update_battery_level(canvas, battery_level):
     try:
         if isinstance(canvas, tk.Canvas):
             canvas.delete("battery")
-            width = 200
-            height = 20
+            width = 210
+            height = 30
             fill_width = (battery_level / 100) * width    
             bg_color = canvas["bg"]
-            text_color = "white" if bg_color == "black" else "black"
-            outline_color = "white" if bg_color == "black" else "black"
+            outline_color = text_color = "white" if bg_color == "black" else "black"
             fill_color = "green"
-            canvas.create_rectangle(5, 5, width + 5, height + 5, outline=outline_color)
-            canvas.create_rectangle(5, 5, fill_width + 5, height + 5, outline="", fill=fill_color, tags="battery")    
+            canvas.create_rectangle(5, 5, width, height + 5)
+            canvas.create_rectangle(5, 5, fill_width, height + 5, fill=fill_color, tags="battery")    
             canvas.create_text(width / 2 + 5, height / 2 + 5, text=f"{battery_level}%", fill=text_color, tags="battery")
         else:
             raise TypeError("Provided widget is not a Canvas")
@@ -246,8 +245,9 @@ def create_settings_window():
         padding_options = {'padx': 10, 'pady': 10}
 
         # Create a canvas to display the battery level
-        battery_canvas = tk.Canvas(window, width=210, height=30, bg="lightgrey", borderwidth=2, relief="sunken")
-        battery_canvas.grid(row=0, column=0, columnspan=3, pady=10)
+        battery_canvas = tk.Canvas(window, width=210, height=30, bg="lightgrey", borderwidth=2, relief="solid")
+        battery_canvas.grid(row=0, column=0, columnspan=2, rowspan=1)
+
         battery_canvas.grid_rowconfigure(0, weight=1)
         battery_canvas.grid_columnconfigure(0, weight=1)
 
@@ -293,6 +293,7 @@ def create_settings_window():
         window.mainloop()
     except Exception as e:
         messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+
 if __name__ == "__main__":
     """ Entry point for starting the monitor process """
     try:
