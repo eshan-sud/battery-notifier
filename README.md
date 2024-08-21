@@ -7,6 +7,9 @@
 **Battery Notifier** is a utility tool that helps you manage your battery usage by providing notifications based on battery levels, generating health reports, and toggling battery saver mode.
 
 
+Built Using : Python
+
+
 Key features include:
 
 - **Threshold Notifications**: Alerts for low and high battery levels.
