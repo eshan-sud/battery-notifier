@@ -1,13 +1,22 @@
 # Battery Notifier
 
-![icon](https://github.com/user-attachments/assets/98239ab1-1172-4a70-b703-ca9374c11da9)
 
-**Battery Notifier** is a tool that helps you manage your battery usage by providing notifications based on battery levels, generating health reports, and toggling battery saver mode. Key features include:
+<img src="https://github.com/user-attachments/assets/98239ab1-1172-4a70-b703-ca9374c11da9" alt="icon" width="300"/>
 
-- **Threshold Notifications**: Set minimum and maximum battery levels to receive notifications when thresholds are crossed.
+
+**Battery Notifier** is a utility tool that helps you manage your battery usage by providing notifications based on battery levels, generating health reports, and toggling battery saver mode.
+
+
+Key features include:
+
+- **Threshold Notifications**: Alerts for low and high battery levels.
 - **Battery Health Report**: Generate a detailed report of your battery's health.
-- **Battery Saver Toggle**: Enable or disable battery saver mode.
+- **Battery Saver Toggle**: On/off switch for battery saver mode.
 - **Monitoring Control**: Start and stop monitoring with ease.
+- **Startup Configuration**: Automatic startup and shortcut creation.
+
+<img src="https://github.com/user-attachments/assets/c1f1c039-3278-425e-9304-4887407f5a45" alt="dark-mode" width="300"/>
+<img src="https://github.com/user-attachments/assets/aecda160-3527-47ac-bcbb-2402d5a26219" alt="light-mode" width="300"/>
 
 ## Setup
 
