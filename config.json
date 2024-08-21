@@ -1,8 +1,0 @@
-{
-    "lower_threshold": 75,
-    "higher_threshold": 89,
-    "startup": true,
-    "dark_mode": true,
-    "battery_saver_on": false,
-    "current_brightness": 50
-}
