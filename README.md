@@ -1,10 +1,10 @@
-# Battery Notifier
+# Voltify
 
 
 <img src="https://github.com/user-attachments/assets/98239ab1-1172-4a70-b703-ca9374c11da9" alt="icon" width="300"/>
 
 
-**Battery Notifier** is a utility tool that helps you manage your battery usage by providing notifications based on battery levels, generating health reports, and toggling battery saver mode.
+**Voltify** is a utility tool that helps you manage your battery usage by providing notifications based on battery levels, generating health reports, and toggling battery saver mode.
 
 
 Built Using : Python
@@ -30,7 +30,7 @@ Key features include:
 1. Open Command Prompt in the same directory as `setup.py`.
 2. Execute: `python setup.py -y`
 
-   This will create a shortcut on your desktop for easy access to the Battery Notifier interface and configure it to run automatically on startup (which can be adjusted as per user preference).
+   This will create a shortcut on your desktop for easy access to the Voltify interface and configure it to run automatically on startup (which can be adjusted as per user preference).
 
 ## Usage
 
